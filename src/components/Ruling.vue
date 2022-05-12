@@ -1,24 +1,31 @@
 <script setup>
 import { ref } from "vue";
 import data from "../assets/data.json";
+import RulingCard from "@/components/RulingCard.vue";
 
-const selected = ref("");
+const selected = ref("List");
 const people = ref(data.data);
 </script>
 
 <template>
   <main role="main">
-    <span class="ruling-title">Previous Rulings</span>
-    <select class="select-ruling" v-model="selected">
-      <option disabled value="List">List</option>
-      <option>List</option>
-      <option>Grid</option>
-    </select>
-    <ul>
-      <li v-for="p in people" :key="p.name">
-        {{ p.name }}
-      </li>
-    </ul>
+    <div style="margin-bottom: 32px;">
+      <span class="ruling-title">Previous Rulings</span>
+      <select class="select-ruling" v-model="selected">
+        <option disabled value="List">List</option>
+        <option>List</option>
+        <option>Grid</option>
+      </select>
+    </div>
+    <div v-if="selected === 'List'">
+      <ul>
+        <li v-for="p in people" :key="p.name">
+          <RulingCard :name="p.name" :picture="p.picture" :description="p.description"></RulingCard>
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+    </div>
   </main>
 </template>
 
