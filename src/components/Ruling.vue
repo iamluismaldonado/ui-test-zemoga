@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import data from "../assets/data.json";
 import RulingCard from "@/components/RulingCard.vue";
+import SquareRulingCard from "./SquareRulingCard.vue";
 
 const selected = ref("List");
 const people = ref(data.data);
@@ -24,12 +25,20 @@ const people = ref(data.data);
         </li>
       </ul>
     </div>
-    <div v-else>
+    <div class="grid" v-else>
+      <div v-for="p in people" :key="p.name">
+        <SquareRulingCard :name="p.name" :picture="p.picture" :description="p.description">
+        </SquareRulingCard>
+      </div>
     </div>
   </main>
 </template>
 
 <style>
+.grid {
+  display: grid;
+  grid-template-columns: 375px 375px 348px;
+}
 .ruling-title {
   font-family: "Lato";
   font-style: normal;
