@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
+import { cutString } from "../helpers.js";
 
 const props = defineProps({
   name: String,
@@ -26,7 +27,7 @@ const pictureUrl = computed(() => {
       <div class="row rectangle">
         <div class="column" style="margin-left: 267px;">
           <span class="row name">{{ props.name }}</span>
-          <span class="row description">{{ props.description }}</span>
+          <span class="row description">{{ cutString(props.description, 75) }}</span>
         </div>
         <div class="column">
           <span class="row date">1 month ago in Entertainment</span>

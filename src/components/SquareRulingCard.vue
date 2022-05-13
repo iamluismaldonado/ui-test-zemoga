@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from "vue";
+import { cutString } from "../helpers.js";
 const props = defineProps({
   name: String,
   description: String,
@@ -11,13 +12,6 @@ const props = defineProps({
 const backgroundImage = computed(() => {
   return 'background: url("src/assets/img/' + props.picture + '")';
 });
-
-function cutString(name, number) {
-  if (name.length > number) {
-    return name.substring(number, length) + "...";
-  }
-  return name;
-}
 </script>
 
 <template>
