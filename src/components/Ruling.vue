@@ -4,7 +4,7 @@ import data from "../assets/data.json";
 import RulingCard from "@/components/RulingCard.vue";
 import SquareRulingCard from "./SquareRulingCard.vue";
 
-const selected = ref("List");
+const selected = ref("Grid");
 const people = ref(data.data);
 </script>
 
@@ -13,7 +13,7 @@ const people = ref(data.data);
     <div style="margin-bottom: 32px;">
       <span class="ruling-title">Previous Rulings</span>
       <select class="select-ruling" v-model="selected">
-        <option disabled value="List">List</option>
+        <option disabled value="Grid">Grid</option>
         <option>List</option>
         <option>Grid</option>
       </select>
