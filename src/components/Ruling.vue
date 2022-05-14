@@ -2,21 +2,22 @@
 import { ref } from "vue";
 import data from "../assets/data.json";
 import RulingCard from "@/components/RulingCard.vue";
-import SquareRulingCard from "./SquareRulingCard.vue";
+import SquareRulingCard from "@/components/SquareRulingCard.vue";
+import CustomSelect from "@/components/CustomSelect.vue";
 
-const selected = ref("List");
+var selected = ref("List");
 const people = ref(data.data);
+
+function changeView(option) {
+  selected.value = option;
+}
 </script>
 
 <template>
   <main role="main">
     <div style="margin-bottom: 32px;">
       <span class="ruling-title">Previous Rulings</span>
-      <select class="select-ruling" v-model="selected">
-        <option disabled value="List">List</option>
-        <option>List</option>
-        <option>Grid</option>
-      </select>
+      <CustomSelect class="select-ruling" :options="['List', 'Grid']" :default="'List'" @input="(option) => changeView(option)" />
     </div>
     <div v-if="selected === 'List'">
       <ul>
@@ -49,19 +50,7 @@ const people = ref(data.data);
 }
 
 .select-ruling {
-  width: 173px;
-  height: 36px;
-  border: 2px solid #333333;
-
   margin-top: 10px;
-
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13.5px;
-  line-height: 100%;
-  text-align: center;
-  color: #333333;
   float: right;
 }
 </style>
