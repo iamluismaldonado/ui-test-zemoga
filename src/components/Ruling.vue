@@ -1,24 +1,27 @@
 <script setup>
-import { ref } from "vue";
-import data from "../assets/data.json";
+import { ref, computed } from "vue";
+import { useBreakpoints } from "../helpers.js";
+import { useMainStore } from "../store.js";
 import RulingCard from "@/components/RulingCard.vue";
 import SquareRulingCard from "@/components/SquareRulingCard.vue";
 import CustomSelect from "@/components/CustomSelect.vue";
-import { useBreakpoints } from "../helpers.js";
 
 var selected = ref("List");
-const people = ref(data.data);
+const main = useMainStore();
+const { type } = useBreakpoints();
 
 function changeView(option) {
   selected.value = option;
 }
 
-const { type } = useBreakpoints();
+const people = computed(() => {
+  return main.getAllPeople.data;
+});
 </script>
 
 <template>
   <main role="main">
-    <div style="margin-bottom: 32px;">
+    <div class="ruling">
       <span class="ruling-title">Previous Rulings</span>
       <CustomSelect class="select-ruling" :options="['List', 'Grid']" :default="'List'" @input="(option) => changeView(option)" />
     </div>
@@ -39,6 +42,9 @@ const { type } = useBreakpoints();
 </template>
 
 <style>
+.ruling {
+  margin-bottom: 32px;
+}
 .ruling-title {
   font-family: "Lato";
   font-style: normal;
