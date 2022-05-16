@@ -44,6 +44,14 @@ hr[role="separator"] {
     margin: 1.5rem 1rem;
 }
 
+.row {
+  display: flex;
+}
+
+.column {
+  display: block;
+}
+
 .nav {
     position: fixed;
     z-index: 2;
@@ -485,6 +493,25 @@ main h2 {
         left: 0;
         width: 110vw;
         height: auto;
+    }
+
+     .max-centered {
+        position: relative;
+        display: block;
+        width: 100vw;
+        max-width: 768px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .max-centered > *,
+    .max-centered > hr[role="separator"] {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .max-centered main {
+        padding: 0;
     }
 
     .featured-card__glass-background {

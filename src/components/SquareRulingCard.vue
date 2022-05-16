@@ -10,7 +10,11 @@ const props = defineProps({
   votes: Object,
 });
 const backgroundImage = computed(() => {
-  return 'background: url("src/assets/img/' + props.picture + '")';
+  return (
+    'background: url("src/assets/img/' +
+    props.picture +
+    '"); no-repeat; background-size: 100%;'
+  );
 });
 </script>
 
@@ -147,9 +151,8 @@ const backgroundImage = computed(() => {
 
 @media all and (min-width: 768px) {
   .square-ruling-card {
-    height: 348px;
-    width: 348px;
-    margin-bottom: 27px;
+    height: 372px;
+    width: 372px;
     position: relative;
   }
   .thumbs-gauge {
@@ -232,7 +235,6 @@ const backgroundImage = computed(() => {
   .square-ruling-card {
     height: 348px;
     width: 348px;
-    margin-bottom: 27px;
     position: relative;
   }
 

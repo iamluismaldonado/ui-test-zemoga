@@ -13,18 +13,16 @@ function changeView(option) {
   selected.value = option;
 }
 
-const { width, type } = useBreakpoints();
+const { type } = useBreakpoints();
 </script>
 
 <template>
   <main role="main">
     <div style="margin-bottom: 32px;">
       <span class="ruling-title">Previous Rulings</span>
-      <span>{{ type }}</span>
-      <span>{{ width }}</span>
       <CustomSelect class="select-ruling" :options="['List', 'Grid']" :default="'List'" @input="(option) => changeView(option)" />
     </div>
-    <div class="list" v-if="selected === 'List' && type !== 'xs'">
+    <div class="" v-if="selected === 'List' && type !== 'xs'">
       <ul>
         <li v-for="p in people" :key="p.name">
           <RulingCard :name="p.name" :picture="p.picture" :description="p.description"></RulingCard>
@@ -32,7 +30,7 @@ const { width, type } = useBreakpoints();
       </ul>
     </div>
     <div class="grid" v-else>
-      <div class="test" v-for="p in people" :key="p.name">
+      <div class="horizontal-scroll" v-for="p in people" :key="p.name">
         <SquareRulingCard :name="p.name" :picture="p.picture" :description="p.description">
         </SquareRulingCard>
       </div>
@@ -60,7 +58,7 @@ const { width, type } = useBreakpoints();
     overflow: auto;
     white-space: nowrap;
   }
-  .test {
+  .horizontal-scroll {
     display: inline-block;
     margin-right: 12px;
   }
@@ -77,7 +75,9 @@ const { width, type } = useBreakpoints();
   }
   .grid {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 385px 384px;
+    row-gap: 21px;
+    column-gap: 10px;
   }
 }
 
@@ -94,6 +94,8 @@ const { width, type } = useBreakpoints();
   .grid {
     display: grid;
     grid-template-columns: 375px 375px 348px;
+    row-gap: 27px;
+    column-gap: 0px;
   }
 }
 </style>

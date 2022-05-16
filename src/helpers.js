@@ -8,9 +8,9 @@ export function useBreakpoints() {
   onUnmounted(() => window.removeEventListener('resize', onWidthChange))
 
   const type = computed(() => {
-    if (windowWidth.value < 550) return 'xs'
-    if (windowWidth.value >= 550 && windowWidth.value < 1200) return 'md'
-    if (windowWidth.value >= 1200) return 'lg'
+    if (windowWidth.value < 768) return 'xs'
+    if (windowWidth.value >= 768 && windowWidth.value < 1100) return 'md'
+    if (windowWidth.value >= 1100) return 'lg'
     return null; // This is an unreachable line, simply to keep eslint happy.
   })
 
