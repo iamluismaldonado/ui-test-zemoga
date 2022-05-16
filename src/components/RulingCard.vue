@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
-import { cutString } from "../helpers.js";
+import { useSplitString } from "../helpers.js";
 
 const props = defineProps({
   name: String,
@@ -30,7 +30,7 @@ const pictureUrl = computed(() => {
         </div>
         <div class="column ruling-card-info">
           <span class="row name">{{ props.name }}</span>
-          <span class="row description">{{ cutString(props.description, 75) }}</span>
+          <span class="row description">{{ useSplitString(props.description, 75) }}</span>
         </div>
         <div class="column ruling-card-actions">
           <span class="row date">1 month ago in Entertainment</span>
@@ -60,6 +60,49 @@ const pictureUrl = computed(() => {
 </template>
 
 <style scoped>
+@media all and (max-width: 500px) {
+  .rectangle {
+    width: 723px;
+    max-width: 1100px;
+    height: 142px;
+    background-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.0001) 10%,
+      #888888 23.79%,
+      #666666 50%,
+      rgba(51, 51, 51, 0.6) 71.88%
+    );
+  }
+}
+
+@media all and (min-width: 768px) {
+  .rectangle {
+    width: 723px;
+    max-width: 1100px;
+    height: 142px;
+    background-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.0001) 10%,
+      #888888 23.79%,
+      #666666 50%,
+      rgba(51, 51, 51, 0.6) 71.88%
+    );
+  }
+}
+
+@media all and (min-width: 1100px) {
+  .rectangle {
+    width: 1100px;
+    height: 170px;
+    background-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.0001) 10%,
+      #888888 23.79%,
+      #666666 50%,
+      rgba(51, 51, 51, 0.6) 71.88%
+    );
+  }
+}
 .ruling-card-actions {
   width: 30%;
 }
@@ -150,18 +193,6 @@ const pictureUrl = computed(() => {
 }
 .ruling-card {
   margin-bottom: 16px;
-}
-
-.rectangle {
-  width: 1100px;
-  height: 170px;
-  background-image: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.0001) 10%,
-    #888888 23.79%,
-    #666666 50%,
-    rgba(51, 51, 51, 0.6) 71.88%
-  );
 }
 
 .ruling-card-image {

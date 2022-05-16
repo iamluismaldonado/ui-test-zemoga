@@ -50,18 +50,56 @@ export default {
 </script>
 
 <style scoped>
-.custom-select {
-  position: relative;
-  width: 173px;
-  height: 36px;
-  text-align: center;
-  outline: none;
-  line-height: 36px;
-  border: 2px solid #333333;
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13.5px;
+@media all and (min-width: 768px) {
+  .custom-select {
+    position: relative;
+    width: 131px;
+    height: 28px;
+    text-align: center;
+    outline: none;
+    line-height: 28px;
+    border: 2px solid #333333;
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10.5px;
+  }
+  .custom-select .selected:after {
+    position: absolute;
+    content: "";
+    top: 12px;
+    right: 1em;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-color: black transparent transparent transparent;
+  }
+}
+
+@media all and (min-width: 1100px) {
+  .custom-select {
+    position: relative;
+    width: 173px;
+    height: 36px;
+    text-align: center;
+    outline: none;
+    line-height: 36px;
+    border: 2px solid #333333;
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13.5px;
+  }
+  .custom-select .selected:after {
+    position: absolute;
+    content: "";
+    top: 16px;
+    right: 1em;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-color: black transparent transparent transparent;
+  }
 }
 
 .custom-select .selected {
@@ -70,17 +108,6 @@ export default {
   padding-left: 1em;
   cursor: pointer;
   user-select: none;
-}
-
-.custom-select .selected:after {
-  position: absolute;
-  content: "";
-  top: 16px;
-  right: 1em;
-  width: 0;
-  height: 0;
-  border: 5px solid transparent;
-  border-color: black transparent transparent transparent;
 }
 
 .custom-select .items {

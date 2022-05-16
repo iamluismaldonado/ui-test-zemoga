@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { cutString } from "../helpers.js";
+import { useSplitString } from "../helpers.js";
 const props = defineProps({
   name: String,
   description: String,
@@ -22,10 +22,10 @@ const backgroundImage = computed(() => {
     <div class="column rectangle">
       <div class="column square-ruling-card-info">
         <div class="row name">
-          {{ cutString(props.name, 22) }}
+          {{ useSplitString(props.name, 22) }}
         </div>
         <div class="row description">
-          {{ cutString(props.description, 63) }}
+          {{ useSplitString(props.description, 63) }}
         </div>
         <div class="row date">
           1 month ago in Entertainment
@@ -61,6 +61,256 @@ const backgroundImage = computed(() => {
 </template>
 
 <style scoped>
+@media all and (max-width: 767px) {
+  .square-ruling-card {
+    height: 300px;
+    width: 300px;
+    position: relative;
+    white-space: normal;
+  }
+  .thumbs-gauge {
+    height: 36px;
+    width: 300px;
+    bottom: 0;
+    position: absolute;
+  }
+  .square-ruling-card-actions {
+    justify-content: end;
+  }
+  .name {
+    height: 74px;
+    bottom: 170px;
+
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 36px;
+    display: flex;
+    align-items: flex-end;
+
+    color: #ffffff;
+  }
+  .rectangle {
+    position: absolute;
+    bottom: 0;
+    width: 300px;
+    height: 80%;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.0001) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+  .square-ruling-card-info {
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-left: 4px;
+  }
+  .ruling-card-thumb {
+    background: #fbbd4a;
+    height: 30px;
+    width: 30px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 57%;
+    z-index: 1;
+  }
+  .description {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #ffffff;
+    margin-top: 8px;
+  }
+  .date {
+    height: 17px;
+    right: 36px;
+    bottom: 98px;
+
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: right;
+    justify-content: right;
+
+    color: #ffffff;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .square-ruling-card {
+    height: 348px;
+    width: 348px;
+    margin-bottom: 27px;
+    position: relative;
+  }
+  .thumbs-gauge {
+    height: 36px;
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+  }
+
+  .square-ruling-card-actions {
+    justify-content: right;
+    margin-top: 16px;
+  }
+
+  .name {
+    height: 74px;
+    bottom: 170px;
+
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 43px;
+    display: flex;
+    align-items: flex-end;
+
+    color: #ffffff;
+  }
+  .rectangle {
+    position: absolute;
+    bottom: 0;
+    height: 70%;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.0001) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+  .square-ruling-card-info {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  .ruling-card-thumb {
+    background: #fbbd4a;
+    height: 30px;
+    width: 30px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 50%;
+    z-index: 1;
+  }
+  .description {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #ffffff;
+  }
+  .date {
+    height: 17px;
+    right: 36px;
+    bottom: 98px;
+
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: right;
+    justify-content: right;
+
+    color: #ffffff;
+    margin-top: 16px;
+  }
+}
+
+@media all and (min-width: 1100px) {
+  .square-ruling-card {
+    height: 348px;
+    width: 348px;
+    margin-bottom: 27px;
+    position: relative;
+  }
+
+  .thumbs-gauge {
+    height: 36px;
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+  }
+
+  .square-ruling-card-actions {
+    justify-content: right;
+    margin-top: 16px;
+  }
+
+  .name {
+    height: 74px;
+    bottom: 170px;
+
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 43px;
+    display: flex;
+    align-items: flex-end;
+
+    color: #ffffff;
+  }
+  .rectangle {
+    position: absolute;
+    bottom: 0;
+    height: 70%;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.0001) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+  .square-ruling-card-info {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  .ruling-card-thumb {
+    background: #fbbd4a;
+    height: 30px;
+    width: 30px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 50%;
+    z-index: 1;
+  }
+  .description {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #ffffff;
+  }
+  .date {
+    height: 17px;
+    right: 36px;
+    bottom: 98px;
+
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: right;
+    justify-content: right;
+
+    color: #ffffff;
+    margin-top: 16px;
+  }
+}
 .thumbs-gauge--up-icon {
   margin-left: 16px;
   margin-right: 8px;
@@ -70,16 +320,6 @@ const backgroundImage = computed(() => {
   float: right;
   margin-right: 16px;
   margin-left: 8px;
-}
-.ruling-card-thumb {
-  background: #fbbd4a;
-  height: 30px;
-  width: 30px;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 50%;
-  z-index: 1;
 }
 .numbers {
   width: 51px;
@@ -117,20 +357,6 @@ const backgroundImage = computed(() => {
 .column {
   display: block;
 }
-.square-ruling-card {
-  height: 348px;
-  width: 348px;
-  margin-bottom: 27px;
-  position: relative;
-}
-
-.thumbs-gauge {
-  height: 36px;
-  width: 100%;
-  bottom: 0;
-  position: absolute;
-}
-
 .vote-now {
   width: 107px;
   height: 38px;
@@ -180,69 +406,5 @@ const backgroundImage = computed(() => {
   margin-right: 8px;
   margin-top: 4px;
   border: none;
-}
-
-.date {
-  width: 279px;
-  height: 17px;
-  right: 36px;
-  bottom: 98px;
-
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 14px;
-  text-align: right;
-  justify-content: right;
-
-  color: #ffffff;
-  margin-top: 16px;
-}
-
-.name {
-  height: 74px;
-  bottom: 170px;
-
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 36px;
-  line-height: 43px;
-  display: flex;
-  align-items: flex-end;
-
-  color: #ffffff;
-}
-
-.description {
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 18px;
-
-  color: #ffffff;
-}
-
-.square-ruling-card-info {
-  padding-left: 10%;
-  padding-right: 10%;
-}
-
-.square-ruling-card-actions {
-  justify-content: right;
-  margin-top: 16px;
-}
-
-.rectangle {
-  position: absolute;
-  bottom: 0;
-  height: 70%;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.0001) 0%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
 }
 </style>
