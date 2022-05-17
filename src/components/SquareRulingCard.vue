@@ -16,6 +16,8 @@ const props = defineProps({
 const thumbsUpButton = ref(false);
 const thumbsDownButton = ref(false);
 const voteTextButton = ref("Vote Now");
+const enableToVote = ref(true);
+const voteMessage = ref("Thank you for your vote!");
 const buttonPressed = ref("border: 2px solid #ffffff");
 
 const voteNowDisabled = computed(() => {
@@ -65,6 +67,14 @@ function voteNow() {
       ? { id: props.id, thumbs: "up" }
       : { id: props.id, thumbs: "down" }
   );
+  voteTextButton.value = "Vote Again";
+  enableToVote.value = false;
+}
+function voteAgain() {
+  enableToVote.value = true;
+  voteTextButton.value = "Vote Now";
+  thumbsDownButton.value = false;
+  thumbsUpButton.value = false;
 }
 </script>
 
@@ -83,21 +93,24 @@ function voteNow() {
           {{ useSplitString(props.description, 63) }}
         </div>
         <div class="row date">
-          {{ dateAndCategoryInfo }}
+          {{ enableToVote ? dateAndCategoryInfo :  voteMessage}}
         </div>
         <div class="row square-ruling-card-actions">
-          <div class="column">
-            <button class="thumbs-up" :style="thumbsUpButton ? buttonPressed: ''" @click="thumbsUp()">
-              <img src="src/assets/img/thumbs-up.svg" alt="thumbs up">
-            </button>
+          <div class="row" :style="!enableToVote ? 'visibility: hidden;' : ''">
+            <div class="column">
+              <button class="thumbs-up" :style="thumbsUpButton ? buttonPressed: ''" @click="thumbsUp()">
+                <img src="src/assets/img/thumbs-up.svg" alt="thumbs up">
+              </button>
+            </div>
+            <div class="column">
+              <button class="thumbs-down" :style="thumbsDownButton ? buttonPressed: ''" @click="thumbsDown()">
+                <img src="src/assets/img/thumbs-down.svg" alt="thumbs down">
+              </button>
+            </div>
           </div>
           <div class="column">
-            <button class="thumbs-down" :style="thumbsDownButton ? buttonPressed: ''" @click="thumbsDown()">
-              <img src="src/assets/img/thumbs-down.svg" alt="thumbs down">
-            </button>
-          </div>
-          <div class="column">
-            <button :disabled="!voteNowDisabled" class="vote-now" @click="voteNow()">{{ voteTextButton }}</button>
+            <button :disabled="!voteNowDisabled" class="vote-now"
+                    @click="enableToVote ? voteNow() : voteAgain()">{{ voteTextButton }}</button>
           </div>
         </div>
       </div>
@@ -375,16 +388,11 @@ function voteNow() {
   margin-left: 8px;
 }
 .numbers {
-  width: 51px;
-  height: 22px;
-  left: 33px;
-
   font-family: "Lato";
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
-  /* identical to box height */
 
   color: #ffffff;
 }

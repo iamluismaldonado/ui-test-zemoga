@@ -514,6 +514,15 @@ main h2 {
         padding: 0;
     }
 
+    .nav__hamburger {
+        position: relative;
+        top: -2rem;
+        right: 1rem;
+        width: 25px;
+        height: 20px;
+        float: right;
+    }
+
     .featured-card__glass-background {
         background:
             center no-repeat linear-gradient(var(--color-dark-background), var(--color-dark-background)),

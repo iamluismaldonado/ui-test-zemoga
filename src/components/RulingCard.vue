@@ -23,6 +23,8 @@ const split = ref(props.picture.split(".")[0]);
 const thumbsUpButton = ref(false);
 const thumbsDownButton = ref(false);
 const voteTextButton = ref("Vote Now");
+const enableToVote = ref(true);
+const voteMessage = ref("Thank you for your vote!");
 const buttonPressed = ref("border: 2px solid #ffffff");
 const { type } = useBreakpoints();
 
@@ -50,11 +52,11 @@ const winingThumbs = computed(() => {
     : "background: #FBBD4A;";
 });
 
-function getPictureUrl() {
+const backgroundImage = computed(() => {
   return type.value === "lg"
     ? 'background: url("src/assets/img/' + split.value + "-small.png" + '")'
     : 'background: url("src/assets/img/' + split.value + "-tablet.png" + '")';
-}
+});
 
 function thumbsUp() {
   thumbsUpButton.value = true;
@@ -73,12 +75,21 @@ function voteNow() {
       ? { id: props.id, thumbs: "up" }
       : { id: props.id, thumbs: "down" }
   );
+  voteTextButton.value = "Vote Again";
+  enableToVote.value = false;
+}
+
+function voteAgain() {
+  enableToVote.value = true;
+  voteTextButton.value = "Vote Now";
+  thumbsDownButton.value = false;
+  thumbsUpButton.value = false;
 }
 </script>
 
 <template>
   <div class="ruling-card">
-    <div class="ruling-card-image" :style="getPictureUrl()">
+    <div class="ruling-card-image" :style="backgroundImage">
       <div class="row rectangle">
         <div class="row ruling-card-thumb" :style="winingThumbs">
           <img :src="props.percentagePositiveVotes >= props.percentageNegativeVotes ? 'src/assets/img/thumbs-up.svg' 
@@ -89,15 +100,18 @@ function voteNow() {
           <span class="row description">{{ useSplitString(props.description, 75) }}</span>
         </div>
         <div class="column ruling-card-actions">
-          <span class="row date">{{ dateAndCategoryInfo }}</span>
+          <span class="row date">{{ enableToVote ? dateAndCategoryInfo :  voteMessage}}</span>
           <div class="row align">
-            <button class="thumbs-up" :style="thumbsUpButton ? buttonPressed: ''" @click="thumbsUp()">
-              <img src="src/assets/img/thumbs-up.svg" alt="thumbs up" />
-            </button>
-            <button class="thumbs-down" :style="thumbsDownButton ? buttonPressed: ''" @click="thumbsDown()">
-              <img src=" src/assets/img/thumbs-down.svg" alt="thumbs down" />
-            </button>
-            <button :disabled="!voteNowDisabled" class="vote-now-button" @click="voteNow()">{{ voteTextButton }}</button>
+            <div :style="!enableToVote ? 'visibility: hidden;' : ''">
+              <button class="thumbs-up" :style="thumbsUpButton ? buttonPressed: ''" @click="thumbsUp()">
+                <img src="src/assets/img/thumbs-up.svg" alt="thumbs up" />
+              </button>
+              <button class="thumbs-down" :style="thumbsDownButton ? buttonPressed: ''" @click="thumbsDown()">
+                <img src=" src/assets/img/thumbs-down.svg" alt="thumbs down" />
+              </button>
+            </div>
+            <button :disabled="!voteNowDisabled" class="vote-now-button"
+                    @click="enableToVote ? voteNow() : voteAgain()">{{ voteTextButton }}</button>
           </div>
         </div>
       </div>
@@ -165,7 +179,6 @@ function voteNow() {
     font-weight: 400;
     font-size: 18px;
     line-height: 32px;
-
     color: #ffffff;
   }
   .name {
@@ -301,11 +314,6 @@ function voteNow() {
     width: 22.5px;
   }
   .numbers {
-    width: 76px;
-    height: 32px;
-    left: 49.5px;
-    top: calc(50% - 32px / 2);
-
     font-family: "Lato";
     font-style: normal;
     font-weight: 400;
@@ -362,10 +370,6 @@ function voteNow() {
     align-items: center;
   }
   .thumbs-down {
-    left: 0%;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
     width: 45px;
     height: 45px;
     background: #fbbd4a;
@@ -376,10 +380,6 @@ function voteNow() {
   }
 
   .thumbs-up {
-    left: 0%;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
     width: 45px;
     height: 45px;
     background: rgba(60, 187, 180, 0.8);
@@ -393,15 +393,9 @@ function voteNow() {
     width: 135px;
     height: 45px;
     box-sizing: border-box;
-    left: 0%;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
     cursor: pointer;
-
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid #ffffff;
-
     font-family: "Lato";
     font-style: normal;
     font-weight: 400;
