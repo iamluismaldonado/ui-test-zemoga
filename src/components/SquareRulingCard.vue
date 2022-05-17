@@ -1,14 +1,27 @@
 <script setup>
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import { useSplitString } from "../helpers.js";
 const props = defineProps({
+  id: Number,
   name: String,
   description: String,
   category: String,
   picture: String,
   lastUpdated: String,
+  percentagePositiveVotes: Number,
+  percentageNegativeVotes: Number,
   votes: Object,
 });
+
+const thumbsUpButton = ref(false);
+const thumbsDownButton = ref(false);
+const voteTextButton = ref("Vote Now");
+const buttonPressed = ref("border: 2px solid #ffffff");
+
+const voteNowDisabled = computed(() => {
+  return thumbsUpButton.value || thumbsDownButton.value;
+});
+
 const backgroundImage = computed(() => {
   return (
     'background: url("src/assets/img/' +
@@ -16,6 +29,26 @@ const backgroundImage = computed(() => {
     '"); no-repeat; background-size: 100%;'
   );
 });
+
+const emit = defineEmits(["voteNow"]);
+
+function thumbsUp() {
+  thumbsUpButton.value = true;
+  thumbsDownButton.value = false;
+}
+
+function thumbsDown() {
+  thumbsDownButton.value = true;
+  thumbsUpButton.value = false;
+}
+function voteNow() {
+  emit(
+    "voteNow",
+    thumbsUpButton.value
+      ? { id: props.id, thumbs: "up" }
+      : { id: props.id, thumbs: "down" }
+  );
+}
 </script>
 
 <template>
@@ -36,27 +69,27 @@ const backgroundImage = computed(() => {
         </div>
         <div class="row square-ruling-card-actions">
           <div class="column">
-            <button class="thumbs-up">
+            <button class="thumbs-up" :style="thumbsUpButton ? buttonPressed: ''" @click="thumbsUp()">
               <img src="src/assets/img/thumbs-up.svg" alt="thumbs up">
             </button>
           </div>
           <div class="column">
-            <button class="thumbs-down">
+            <button class="thumbs-down" :style="thumbsDownButton ? buttonPressed: ''" @click="thumbsDown()">
               <img src="src/assets/img/thumbs-down.svg" alt="thumbs down">
             </button>
           </div>
           <div class="column">
-            <button class="vote-now">Vote Now</button>
+            <button :disabled="!voteNowDisabled" class="vote-now" @click="voteNow()">{{ voteTextButton }}</button>
           </div>
         </div>
       </div>
       <div class=" row thumbs-gauge">
         <div class="row thumbs-gauge--up">
           <img class="thumbs-gauge--up-icon" src=" src/assets/img/thumbs-up.svg">
-          <span class="numbers">25.5%</span>
+          <span class="numbers">{{ percentagePositiveVotes }}%</span>
         </div>
         <div class="row thumbs-gauge--down">
-          <span class="numbers">74.5%</span>
+          <span class="numbers">{{ percentageNegativeVotes }}%</span>
           <img class="thumbs-gauge--down-icon" src="src/assets/img/thumbs-down.svg">
         </div>
       </div>
@@ -383,6 +416,7 @@ const backgroundImage = computed(() => {
 
   background: rgba(0, 0, 0, 0.6);
   border: 1px solid #ffffff;
+  cursor: pointer;
 }
 
 .thumbs-up {
@@ -396,6 +430,8 @@ const backgroundImage = computed(() => {
   margin-right: 8px;
   margin-top: 4px;
   border: 2px solid #ffffff;
+  cursor: pointer;
+  border: none;
 }
 .thumbs-down {
   height: 30px;
@@ -407,6 +443,8 @@ const backgroundImage = computed(() => {
   background: #fbbd4a;
   margin-right: 8px;
   margin-top: 4px;
+  border: none;
+  cursor: pointer;
   border: none;
 }
 </style>

@@ -1,22 +1,54 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useSplitString, useBreakpoints } from "../helpers.js";
 
 const props = defineProps({
+  id: Number,
   name: String,
   description: String,
   category: String,
   picture: String,
   lastUpdated: String,
+  percentagePositiveVotes: Number,
+  percentageNegativeVotes: Number,
   votes: Object,
 });
 
 const split = ref(props.picture.split(".")[0]);
+const thumbsUpButton = ref(false);
+const thumbsDownButton = ref(false);
+const voteTextButton = ref("Vote Now");
+const buttonPressed = ref("border: 2px solid #ffffff");
+
+const voteNowDisabled = computed(() => {
+  return thumbsUpButton.value || thumbsDownButton.value;
+});
+
+const emit = defineEmits(["voteNow"]);
 
 function getPictureUrl() {
   return type.value === "lg"
     ? 'background: url("src/assets/img/' + split.value + "-small.png" + '")'
     : 'background: url("src/assets/img/' + split.value + "-tablet.png" + '")';
+}
+
+function thumbsUp() {
+  thumbsUpButton.value = true;
+  thumbsDownButton.value = false;
+}
+
+function thumbsDown() {
+  thumbsDownButton.value = true;
+  thumbsUpButton.value = false;
+}
+
+function voteNow() {
+  emit(
+    "voteNow",
+    thumbsUpButton.value
+      ? { id: props.id, thumbs: "up" }
+      : { id: props.id, thumbs: "down" }
+  );
 }
 
 const { type } = useBreakpoints();
@@ -36,13 +68,13 @@ const { type } = useBreakpoints();
         <div class="column ruling-card-actions">
           <span class="row date">1 month ago in Entertainment</span>
           <div class="row align">
-            <button class="thumbs-up">
+            <button class="thumbs-up" :style="thumbsUpButton ? buttonPressed: ''" @click="thumbsUp()">
               <img src="src/assets/img/thumbs-up.svg" alt="thumbs up" />
             </button>
-            <button class="thumbs-down">
-              <img src="src/assets/img/thumbs-down.svg" alt="thumbs up" />
+            <button class="thumbs-down" :style="thumbsDownButton ? buttonPressed: ''" @click="thumbsDown()">
+              <img src=" src/assets/img/thumbs-down.svg" alt="thumbs down" />
             </button>
-            <button class="vote-now-button">Vote Now</button>
+            <button :disabled="!voteNowDisabled" class="vote-now-button" @click="voteNow()">{{ voteTextButton }}</button>
           </div>
         </div>
       </div>
@@ -50,10 +82,10 @@ const { type } = useBreakpoints();
     <div class=" row thumbs-gauge">
       <div class="row thumbs-gauge--up">
         <img class="thumbs-gauge--up-icon" src=" src/assets/img/thumbs-up.svg">
-        <span class="numbers">25.5%</span>
+        <span class="numbers">{{ percentagePositiveVotes }}%</span>
       </div>
       <div class="row thumbs-gauge--down">
-        <span class="numbers">74.5%</span>
+        <span class="numbers">{{ percentageNegativeVotes }}%</span>
         <img class="thumbs-gauge--down-icon" src="src/assets/img/thumbs-down.svg">
       </div>
     </div>
@@ -170,15 +202,17 @@ const { type } = useBreakpoints();
     border: none;
     margin-right: 8px;
     margin-top: 4px;
+    cursor: pointer;
   }
 
   .thumbs-up {
     width: 30px;
     height: 30px;
     background: rgba(60, 187, 180, 0.8);
-    border: 2px solid #ffffff;
     margin-right: 8px;
     margin-top: 4px;
+    cursor: pointer;
+    border: none;
   }
 
   .vote-now-button {
@@ -198,6 +232,7 @@ const { type } = useBreakpoints();
     text-align: center;
 
     color: #ffffff;
+    cursor: pointer;
   }
 }
 
@@ -319,6 +354,7 @@ const { type } = useBreakpoints();
     border: none;
     margin-right: 4px;
     margin-top: 0px;
+    cursor: pointer;
   }
 
   .thumbs-up {
@@ -329,9 +365,10 @@ const { type } = useBreakpoints();
     width: 45px;
     height: 45px;
     background: rgba(60, 187, 180, 0.8);
-    border: 2px solid #ffffff;
+    border: none;
     margin-right: 4px;
     margin-top: 0px;
+    cursor: pointer;
   }
 
   .vote-now-button {
@@ -342,6 +379,7 @@ const { type } = useBreakpoints();
     right: 0%;
     top: 0%;
     bottom: 0%;
+    cursor: pointer;
 
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid #ffffff;

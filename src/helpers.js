@@ -25,3 +25,8 @@ export function useSplitString(name, number) {
   }
   return name;
 }
+
+export function percentage(partialValue, totalValue) {
+  const number = (100 * partialValue) / totalValue;
+  return Math.round(number * 10) / 10
+} 
