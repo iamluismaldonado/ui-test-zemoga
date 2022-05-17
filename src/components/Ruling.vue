@@ -33,10 +33,11 @@ function voteNow(vote) {
       <span class="ruling-title">Previous Rulings</span>
       <CustomSelect class="select-ruling" :options="['List', 'Grid']" :default="'List'" @input="(option) => changeView(option)" />
     </div>
-    <div class="" v-if="selected === 'List' && type !== 'xs'">
+    <div v-if="selected === 'List' && type !== 'xs'">
       <ul>
         <li v-for="(p, index) in people" :key="p.name">
-          <RulingCard :id="index" :name="p.name" :picture="p.picture" :description="p.description"
+          <RulingCard :id="index" :name="p.name" :picture="p.picture" :description="p.description" :category="p.category"
+                      :lastUpdated="p.lastUpdated"
                       :percentagePositiveVotes="percentageVotesList.percentagePositiveVotesList[index]"
                       :percentageNegativeVotes="percentageVotesList.percentageNegativeVotesList[index]"
                       @voteNow="(vote) => voteNow(vote)">
@@ -46,7 +47,8 @@ function voteNow(vote) {
     </div>
     <div class="grid" v-else>
       <div class="horizontal-scroll" v-for="(p, index) in people" :key="p.name">
-        <SquareRulingCard :id="index" :name="p.name" :picture="p.picture" :description="p.description"
+        <SquareRulingCard :id="index" :name="p.name" :picture="p.picture" :description="p.description" :category="p.category"
+                          :lastUpdated="p.lastUpdated"
                           :percentagePositiveVotes="percentageVotesList.percentagePositiveVotesList[index]"
                           :percentageNegativeVotes="percentageVotesList.percentageNegativeVotesList[index]"
                           @voteNow="(vote) => voteNow(vote)">

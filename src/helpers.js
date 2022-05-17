@@ -1,4 +1,5 @@
 import { computed, onMounted, onUnmounted, ref } from "vue"
+import moment from "moment";
 
 export function useBreakpoints() {
   let windowWidth = ref(window.innerWidth)
@@ -29,4 +30,12 @@ export function useSplitString(name, number) {
 export function percentage(partialValue, totalValue) {
   const number = (100 * partialValue) / totalValue;
   return Math.round(number * 10) / 10
-} 
+}
+
+export function dateToToday(date) {
+  return moment(date).fromNow();
+}
+
+export function capitalize(word) {
+  return word[0].toUpperCase() + word.slice(1);
+}

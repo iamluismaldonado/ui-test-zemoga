@@ -1,6 +1,11 @@
 <script setup>
 import { ref, computed } from "vue";
-import { useSplitString, useBreakpoints } from "../helpers.js";
+import {
+  useSplitString,
+  useBreakpoints,
+  dateToToday,
+  capitalize,
+} from "../helpers.js";
 
 const props = defineProps({
   id: Number,
@@ -19,12 +24,31 @@ const thumbsUpButton = ref(false);
 const thumbsDownButton = ref(false);
 const voteTextButton = ref("Vote Now");
 const buttonPressed = ref("border: 2px solid #ffffff");
+const { type } = useBreakpoints();
 
 const voteNowDisabled = computed(() => {
   return thumbsUpButton.value || thumbsDownButton.value;
 });
 
 const emit = defineEmits(["voteNow"]);
+
+const dateAndCategoryInfo = computed(() => {
+  return dateToToday(props.lastUpdated) + " in " + capitalize(props.category);
+});
+
+const widthForThumbsUp = computed(() => {
+  return "width:" + props.percentagePositiveVotes + "%;";
+});
+
+const widthForThumbsDown = computed(() => {
+  return "width:" + props.percentageNegativeVotes + "%;";
+});
+
+const winingThumbs = computed(() => {
+  return props.percentagePositiveVotes >= props.percentageNegativeVotes
+    ? "background: rgba(60, 187, 180, 0.8);"
+    : "background: #FBBD4A;";
+});
 
 function getPictureUrl() {
   return type.value === "lg"
@@ -50,23 +74,22 @@ function voteNow() {
       : { id: props.id, thumbs: "down" }
   );
 }
-
-const { type } = useBreakpoints();
 </script>
 
 <template>
   <div class="ruling-card">
     <div class="ruling-card-image" :style="getPictureUrl()">
       <div class="row rectangle">
-        <div class="row ruling-card-thumb">
-          <img src="src/assets/img/thumbs-up.svg" alt="thumbs up" />
+        <div class="row ruling-card-thumb" :style="winingThumbs">
+          <img :src="props.percentagePositiveVotes >= props.percentageNegativeVotes ? 'src/assets/img/thumbs-up.svg' 
+          : 'src/assets/img/thumbs-down.svg'" />
         </div>
         <div class=" column ruling-card-info">
           <span class="row name">{{ type === 'md' ? useSplitString(props.name, 21) : props.name }}</span>
           <span class="row description">{{ useSplitString(props.description, 75) }}</span>
         </div>
         <div class="column ruling-card-actions">
-          <span class="row date">1 month ago in Entertainment</span>
+          <span class="row date">{{ dateAndCategoryInfo }}</span>
           <div class="row align">
             <button class="thumbs-up" :style="thumbsUpButton ? buttonPressed: ''" @click="thumbsUp()">
               <img src="src/assets/img/thumbs-up.svg" alt="thumbs up" />
@@ -79,12 +102,12 @@ const { type } = useBreakpoints();
         </div>
       </div>
     </div>
-    <div class=" row thumbs-gauge">
-      <div class="row thumbs-gauge--up">
+    <div class="row thumbs-gauge">
+      <div class="row thumbs-gauge--up" :style="widthForThumbsUp">
         <img class="thumbs-gauge--up-icon" src=" src/assets/img/thumbs-up.svg">
         <span class="numbers">{{ percentagePositiveVotes }}%</span>
       </div>
-      <div class="row thumbs-gauge--down">
+      <div class="row thumbs-gauge--down" :style="widthForThumbsDown">
         <span class="numbers">{{ percentageNegativeVotes }}%</span>
         <img class="thumbs-gauge--down-icon" src="src/assets/img/thumbs-down.svg">
       </div>
@@ -112,7 +135,6 @@ const { type } = useBreakpoints();
   .thumbs-gauge--up {
     background-color: rgba(60, 187, 180, 0.6);
     margin-right: auto;
-    width: 100%;
     align-items: center;
     display: flex;
   }
@@ -126,7 +148,6 @@ const { type } = useBreakpoints();
   .thumbs-gauge--down {
     background-color: rgba(249, 173, 29, 0.6);
     margin-left: auto;
-    width: 100%;
     align-items: center;
     display: flex;
     justify-content: end;
@@ -256,9 +277,7 @@ const { type } = useBreakpoints();
   .thumbs-gauge--up {
     background-color: rgba(60, 187, 180, 0.6);
     margin-right: auto;
-    width: 100%;
     align-items: center;
-    display: flex;
   }
   .thumbs-gauge--up-icon {
     margin-left: 16px;
@@ -270,7 +289,6 @@ const { type } = useBreakpoints();
   .thumbs-gauge--down {
     background-color: rgba(249, 173, 29, 0.6);
     margin-left: auto;
-    width: 100%;
     align-items: center;
     display: flex;
     justify-content: end;

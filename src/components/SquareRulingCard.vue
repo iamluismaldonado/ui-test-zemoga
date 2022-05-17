@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
-import { useSplitString } from "../helpers.js";
+import { useSplitString, dateToToday, capitalize } from "../helpers.js";
 const props = defineProps({
   id: Number,
   name: String,
@@ -22,6 +22,23 @@ const voteNowDisabled = computed(() => {
   return thumbsUpButton.value || thumbsDownButton.value;
 });
 
+const dateAndCategoryInfo = computed(() => {
+  return dateToToday(props.lastUpdated) + " in " + capitalize(props.category);
+});
+
+const widthForThumbsUp = computed(() => {
+  return "width:" + props.percentagePositiveVotes + "%;";
+});
+
+const widthForThumbsDown = computed(() => {
+  return "width:" + props.percentageNegativeVotes + "%;";
+});
+
+const winingThumbs = computed(() => {
+  return props.percentagePositiveVotes >= props.percentageNegativeVotes
+    ? "background: rgba(60, 187, 180, 0.8);"
+    : "background: #FBBD4A;";
+});
 const backgroundImage = computed(() => {
   return (
     'background: url("src/assets/img/' +
@@ -53,8 +70,9 @@ function voteNow() {
 
 <template>
   <div class="square-ruling-card row" :style="backgroundImage">
-    <div class="row ruling-card-thumb">
-      <img src=" src/assets/img/thumbs-up.svg" alt="thumbs up" />
+    <div class="row ruling-card-thumb" :style="winingThumbs">
+      <img :src="props.percentagePositiveVotes >= props.percentageNegativeVotes ? 'src/assets/img/thumbs-up.svg' 
+          : 'src/assets/img/thumbs-down.svg'" />
     </div>
     <div class="column rectangle">
       <div class="column square-ruling-card-info">
@@ -65,7 +83,7 @@ function voteNow() {
           {{ useSplitString(props.description, 63) }}
         </div>
         <div class="row date">
-          1 month ago in Entertainment
+          {{ dateAndCategoryInfo }}
         </div>
         <div class="row square-ruling-card-actions">
           <div class="column">
@@ -84,11 +102,11 @@ function voteNow() {
         </div>
       </div>
       <div class=" row thumbs-gauge">
-        <div class="row thumbs-gauge--up">
+        <div class="row thumbs-gauge--up" :style="widthForThumbsUp">
           <img class="thumbs-gauge--up-icon" src=" src/assets/img/thumbs-up.svg">
           <span class="numbers">{{ percentagePositiveVotes }}%</span>
         </div>
-        <div class="row thumbs-gauge--down">
+        <div class="row thumbs-gauge--down" :style="widthForThumbsDown">
           <span class="numbers">{{ percentageNegativeVotes }}%</span>
           <img class="thumbs-gauge--down-icon" src="src/assets/img/thumbs-down.svg">
         </div>
@@ -373,7 +391,6 @@ function voteNow() {
 .thumbs-gauge--up {
   background-color: rgba(60, 187, 180, 0.6);
   margin-right: auto;
-  width: 100%;
   align-items: center;
   display: flex;
 }
@@ -381,7 +398,6 @@ function voteNow() {
 .thumbs-gauge--down {
   background-color: rgba(249, 173, 29, 0.6);
   margin-left: auto;
-  width: 100%;
   align-items: center;
   justify-content: end;
 }
