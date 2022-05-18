@@ -21,7 +21,7 @@
           <form action="javascript:void(0)">
             <input class="nav__search-input" aria-label="search" type="text">
             <button class="nav__search icon-button" alt="Search" type="submit">
-              <img src="src/assets/img/search.svg" alt="search">
+              <img src="/src/assets/img/search.svg" alt="search">
             </button>
           </form>
         </li>

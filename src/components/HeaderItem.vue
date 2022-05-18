@@ -1,7 +1,7 @@
 <template>
   <header class="hero">
-    <img class="hero__background" srcset="src/assets/img/pope-francis.png 750w, src/assets/img/pope-francis.@2x.png 1440w"
-         sizes="(min-width: 750px) 1440px, 100vw" src="src/assets/img/pope-francis.png" alt="Pope Francis">
+    <img class="hero__background" srcset="/src/assets/img/pope-francis.png 750w, /src/assets/img/pope-francis.@2x.png 1440w"
+         sizes="(min-width: 750px) 1440px, 100vw" src="/src/assets/img/pope-francis.png" alt="Pope Francis">
     <div class="max-centered">
       <div class="hero__featured-card">
         <div class="featured-card__glass-background"></div>
@@ -26,10 +26,10 @@
           </p>
           <div class="featured-card__buttons">
             <button class="icon-button" aria-label="thumbs up">
-              <img src="src/assets/img/thumbs-up.svg" alt="thumbs up" />
+              <img src="/src/assets/img/thumbs-up.svg" alt="thumbs up" />
             </button>
             <button class="icon-button" aria-label="thumbs down">
-              <img src="src/assets/img/thumbs-down.svg" alt="thumbs down" />
+              <img src="/src/assets/img/thumbs-down.svg" alt="thumbs down" />
             </button>
           </div>
         </div>

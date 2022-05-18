@@ -56,8 +56,8 @@ const winingThumbs = computed(() => {
 
 const backgroundImage = computed(() => {
   return type.value === "lg"
-    ? 'background: url("src/assets/img/' + split.value + "-small.png" + '")'
-    : 'background: url("src/assets/img/' + split.value + "-tablet.png" + '")';
+    ? 'background: url("/src/assets/img/' + split.value + "-small.png" + '")'
+    : 'background: url("/src/assets/img/' + split.value + "-tablet.png" + '")';
 });
 
 function thumbsUp() {
@@ -94,8 +94,8 @@ function voteAgain() {
     <div class="ruling-card-image" :style="backgroundImage">
       <div class="row rectangle">
         <div class="row ruling-card-thumb" :style="winingThumbs">
-          <img :src="props.percentagePositiveVotes >= props.percentageNegativeVotes ? 'src/assets/img/thumbs-up.svg' 
-          : 'src/assets/img/thumbs-down.svg'" />
+          <img :src="props.percentagePositiveVotes >= props.percentageNegativeVotes ? '/src/assets/img/thumbs-up.svg' 
+          : '/src/assets/img/thumbs-down.svg'" />
         </div>
         <div class=" column ruling-card-info">
           <span class="row name">{{ type === 'md' ? useSplitString(props.name, 21) : props.name }}</span>
@@ -106,10 +106,10 @@ function voteAgain() {
           <div class="row align">
             <div :style="!enableToVote ? 'visibility: hidden;' : ''">
               <button class="thumbs-up" :style="thumbsUpButton ? buttonPressed: ''" @click="thumbsUp()">
-                <img src="src/assets/img/thumbs-up.svg" alt="thumbs up" />
+                <img src="/src/assets/img/thumbs-up.svg" alt="thumbs up" />
               </button>
               <button class="thumbs-down" :style="thumbsDownButton ? buttonPressed: ''" @click="thumbsDown()">
-                <img src=" src/assets/img/thumbs-down.svg" alt="thumbs down" />
+                <img src="/src/assets/img/thumbs-down.svg" alt="thumbs down" />
               </button>
             </div>
             <button :disabled="!voteNowDisabled" class="vote-now-button"
@@ -120,12 +120,12 @@ function voteAgain() {
     </div>
     <div class="row thumbs-gauge">
       <div class="row thumbs-gauge--up" :style="widthForThumbsUp">
-        <img class="thumbs-gauge--up-icon" src=" src/assets/img/thumbs-up.svg">
+        <img class="thumbs-gauge--up-icon" src="/src/assets/img/thumbs-up.svg">
         <span class="numbers">{{ percentagePositiveVotes }}%</span>
       </div>
       <div class="row thumbs-gauge--down" :style="widthForThumbsDown">
         <span class="numbers">{{ percentageNegativeVotes }}%</span>
-        <img class="thumbs-gauge--down-icon" src="src/assets/img/thumbs-down.svg">
+        <img class="thumbs-gauge--down-icon" src="/src/assets/img/thumbs-down.svg">
       </div>
     </div>
   </div>
