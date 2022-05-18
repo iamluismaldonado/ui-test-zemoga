@@ -6,14 +6,14 @@ import RulingCard from "@/components/RulingCard.vue";
 import SquareRulingCard from "@/components/SquareRulingCard.vue";
 import CustomSelect from "@/components/CustomSelect.vue";
 
-var selected = ref("List");
-const main = useMainStore();
 const { type } = useBreakpoints();
+
+const selected = ref("List");
+const main = useMainStore();
 
 const people = computed(() => {
   return main.getAllPeople;
 });
-
 const percentageVotesList = computed(() => {
   return main.getPetcentageVotes;
 });
@@ -21,7 +21,6 @@ const percentageVotesList = computed(() => {
 function changeView(option) {
   selected.value = option;
 }
-
 function voteNow(vote) {
   main.addVote(vote);
 }
@@ -35,7 +34,7 @@ function voteNow(vote) {
     </div>
     <div v-if="selected === 'List' && type !== 'xs'">
       <ul>
-        <li v-for="(p, index) in people" :key="p.name">
+        <li v-for="(p, index) in people" :key="index">
           <RulingCard :id="index" :name="p.name" :picture="p.picture" :description="p.description" :category="p.category"
                       :lastUpdated="p.lastUpdated"
                       :percentagePositiveVotes="percentageVotesList.percentagePositiveVotesList[index]"
@@ -46,7 +45,7 @@ function voteNow(vote) {
       </ul>
     </div>
     <div class="grid" v-else>
-      <div class="horizontal-scroll" v-for="(p, index) in people" :key="p.name">
+      <div class="horizontal-scroll" v-for="(p, index) in people" :key="index">
         <SquareRulingCard :id="index" :name="p.name" :picture="p.picture" :description="p.description" :category="p.category"
                           :lastUpdated="p.lastUpdated"
                           :percentagePositiveVotes="percentageVotesList.percentagePositiveVotesList[index]"
@@ -58,7 +57,7 @@ function voteNow(vote) {
   </main>
 </template>
 
-<style>
+<style scoped>
 .ruling {
   margin-bottom: 32px;
 }

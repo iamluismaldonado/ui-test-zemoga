@@ -1,23 +1,7 @@
-<template>
-  <div class="custom-select" :tabindex="tabindex" @blur="open = false">
-    <div class="selected" :class="{ open: open }" @click="open = !open">
-      {{ selected }}
-    </div>
-    <div class="items" :class="{ selectHide: !open }">
-      <div v-for="(option, i) of options" :key="i" @click="
-          selected = option;
-          open = false;
-          $emit('input', option);
-        ">
-        {{ option }}
-      </div>
-    </div>
-  </div>
-</template>
+<script setup>
+import { ref, onMounted } from 'vue';
 
-<script>
-export default {
-  props: {
+  const props = defineProps({
     options: {
       type: Array,
       required: true,
@@ -32,74 +16,58 @@ export default {
       required: false,
       default: 0,
     },
-  },
-  data() {
-    return {
-      selected: this.default
-        ? this.default
-        : this.options.length > 0
-        ? this.options[0]
-        : null,
-      open: false,
-    };
-  },
-  mounted() {
-    this.$emit("input", this.selected);
-  },
-};
+  });
+
+const selected = ref(props.default
+        ? props.default
+        : props.options.length > 0
+        ? props.options[0]
+        : null);
+const open = ref(false) ;
+
+const emit = defineEmits(["input"]);
+
+onMounted(() => {
+  emit("input", selected.value);
+});
 </script>
 
+<template>
+  <div class="custom-select" :tabindex="props.tabindex" @blur="open = false">
+    <div class="selected" :class="{ open: open }" @click="open = !open">
+      {{ selected }}
+    </div>
+    <div class="items" :class="{ selectHide: !open }">
+      <div v-for="(option, i) of props.options" :key="i" @click="
+          selected = option;
+          open = false;
+          $emit('input', option);
+        ">
+        {{ option }}
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
-@media all and (min-width: 768px) {
-  .custom-select {
-    position: relative;
-    width: 131px;
-    height: 28px;
-    text-align: center;
-    outline: none;
-    line-height: 28px;
-    border: 2px solid #333333;
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 10.5px;
-  }
-  .custom-select .selected:after {
-    position: absolute;
-    content: "";
-    top: 12px;
-    right: 1em;
-    width: 0;
-    height: 0;
-    border: 5px solid transparent;
-    border-color: black transparent transparent transparent;
-  }
+.custom-select {
+  position: relative;
+  text-align: center;
+  outline: none;
+  border: 2px solid #333333;
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
 }
 
-@media all and (min-width: 1100px) {
-  .custom-select {
-    position: relative;
-    width: 173px;
-    height: 36px;
-    text-align: center;
-    outline: none;
-    line-height: 36px;
-    border: 2px solid #333333;
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13.5px;
-  }
-  .custom-select .selected:after {
-    position: absolute;
-    content: "";
-    top: 16px;
-    right: 1em;
-    width: 0;
-    height: 0;
-    border: 5px solid transparent;
-    border-color: black transparent transparent transparent;
-  }
+.custom-select .selected:after {
+  position: absolute;
+  content: "";
+  border: 5px solid transparent;
+  border-color: black transparent transparent transparent;
+  right: 1em;
+  width: 0;
+  height: 0;
 }
 
 .custom-select .selected {
@@ -137,5 +105,29 @@ export default {
 
 .selectHide {
   display: none;
+}
+
+@media all and (min-width: 768px) {
+  .custom-select {
+    width: 131px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 10.5px;
+  }
+  .custom-select .selected:after {
+    top: 12px;
+  }
+}
+
+@media all and (min-width: 1100px) {
+  .custom-select {
+    width: 173px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 13.5px;
+  }
+  .custom-select .selected:after {
+    top: 16px;
+  }
 }
 </style>
