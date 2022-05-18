@@ -3,8 +3,8 @@ import { ref, computed } from "vue";
 import {
   useSplitString,
   useBreakpoints,
-  dateToToday,
-  capitalize,
+  useDateToToday,
+  useCapitalize,
 } from "../helpers.js";
 
 const props = defineProps({
@@ -35,7 +35,9 @@ const voteNowDisabled = computed(() => {
 const emit = defineEmits(["voteNow"]);
 
 const dateAndCategoryInfo = computed(() => {
-  return dateToToday(props.lastUpdated) + " in " + capitalize(props.category);
+  return (
+    useDateToToday(props.lastUpdated) + " in " + useCapitalize(props.category)
+  );
 });
 
 const widthForThumbsUp = computed(() => {
@@ -415,14 +417,6 @@ function voteAgain() {
   margin-top: 16px;
   margin-right: 16px;
   float: right;
-}
-
-.row {
-  display: flex;
-}
-
-.column {
-  display: block;
 }
 .ruling-card {
   margin-bottom: 16px;

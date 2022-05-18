@@ -1,20 +1,20 @@
 <script setup>
-import Header from "@/components/Header.vue";
+import HeaderItem from "@/components/HeaderItem.vue";
 import BannerTop from "@/components/BannerTop.vue";
 import BannerBottom from "@/components/BannerBottom.vue";
-import Footer from "@/components/Footer.vue";
-import Ruling from "../components/Ruling.vue";
+import FooterItem from "@/components/FooterItem.vue";
+import RulingItem from "@/components/RulingItem.vue";
 </script>
 
 <template>
   <main>
-    <Header />
+    <HeaderItem />
     <div class="max-centered">
       <BannerTop />
-      <Ruling />
+      <RulingItem />
       <BannerBottom />
       <hr role="separator">
-      <Footer />
+      <FooterItem />
     </div>
   </main>
 </template>

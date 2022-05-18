@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
+import { usePercentage } from "../src/helpers.js";
 import data from "../src/assets/data.json"
-import { percentage } from "../src/helpers.js";
 
 export const useMainStore = defineStore({
   id: 'main',
@@ -12,9 +12,6 @@ export const useMainStore = defineStore({
     getAllPeople() {
       return this.people.data
     },
-    peopleEmpty() {
-      return this.people.length <= 0
-    },
     getPetcentageVotes() {
       const listOfPercentagePositiveVotes = [];
       const listOfPercentageNegativeVotes = [];
@@ -22,19 +19,13 @@ export const useMainStore = defineStore({
         const positiveVotes = person.votes.positive;
         const negativeVotes = person.votes.negative;
         const totalVotes = positiveVotes + negativeVotes;
-        listOfPercentagePositiveVotes.push(percentage(positiveVotes, totalVotes));
-        listOfPercentageNegativeVotes.push(percentage(negativeVotes, totalVotes));
+        listOfPercentagePositiveVotes.push(usePercentage(positiveVotes, totalVotes));
+        listOfPercentageNegativeVotes.push(usePercentage(negativeVotes, totalVotes));
       });
       return { 'percentagePositiveVotesList': listOfPercentagePositiveVotes, 'percentageNegativeVotesList': listOfPercentageNegativeVotes }
     }
   },
   actions: {
-    addPeople(person) {
-      this.people.push(person);
-    },
-    removePeople(index) {
-      this.people.splice(index, 1)
-    },
     addVote(vote) {
       if (vote.thumbs === 'up') {
         this.getAllPeople[vote.id].votes.positive = this.getAllPeople[vote.id].votes.positive + 1;

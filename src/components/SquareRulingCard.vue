@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
-import { useSplitString, dateToToday, capitalize } from "../helpers.js";
+import { useSplitString, useDateToToday, useCapitalize } from "../helpers.js";
 const props = defineProps({
   id: Number,
   name: String,
@@ -25,7 +25,9 @@ const voteNowDisabled = computed(() => {
 });
 
 const dateAndCategoryInfo = computed(() => {
-  return dateToToday(props.lastUpdated) + " in " + capitalize(props.category);
+  return (
+    useDateToToday(props.lastUpdated) + " in " + useCapitalize(props.category)
+  );
 });
 
 const widthForThumbsUp = computed(() => {
@@ -408,13 +410,6 @@ function voteAgain() {
   margin-left: auto;
   align-items: center;
   justify-content: end;
-}
-.row {
-  display: flex;
-}
-
-.column {
-  display: block;
 }
 .vote-now {
   width: 107px;

@@ -12,7 +12,7 @@ export function useBreakpoints() {
     if (windowWidth.value < 768) return 'xs'
     if (windowWidth.value >= 768 && windowWidth.value < 1100) return 'md'
     if (windowWidth.value >= 1100) return 'lg'
-    return null; // This is an unreachable line, simply to keep eslint happy.
+    return null;
   })
 
   const width = computed(() => windowWidth.value)
@@ -27,15 +27,15 @@ export function useSplitString(name, number) {
   return name;
 }
 
-export function percentage(partialValue, totalValue) {
+export function usePercentage(partialValue, totalValue) {
   const number = (100 * partialValue) / totalValue;
   return Math.round(number * 10) / 10
 }
 
-export function dateToToday(date) {
+export function useDateToToday(date) {
   return moment(date).fromNow();
 }
 
-export function capitalize(word) {
+export function useCapitalize(word) {
   return word[0].toUpperCase() + word.slice(1);
 }
